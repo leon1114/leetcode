@@ -23,10 +23,11 @@ class Solution:
         answer => min(dp[-1])
         """
 
-        # dp 를 [grid[0]] + [[-1] * len(grid[0])] * len(grid) 로 했더니, row 1 부터 row n 까지 list가 모두 같은것을 바라보게 되어서 에러 났음;;
-        dp = [grid[0]]
+        # dp 를 [grid[0]] + [[-1] * len(grid[0])] * len(grid) 로 했더니, row 1 부터 row n 까지 list가 모두 같은것을 바라보게 되어서 에러 났음.
+        # 리스트 오브젝트에 대해 곱하기 연산자를 사용할 경우 -> reference 가 복사 되어 버린다. 
+        # 아래와 같이 list comp 를 사용해서 list 를 복사해야 이번과 같은 문제가 발생하지 않는다. 
+        dp = [grid[0]] + [[-1] * len(grid[0]) for _ in range(len(grid) - 1)]
         for row in range(1, len(grid)):
-            dp.append([-1] * len(grid[0]))
             for col_target in range(0, len(grid[0])):
                 dp[row][col_target] = min((dp[row-1][col_src] + moveCost[grid[row-1][col_src]][col_target]) for col_src in range(len(grid[0]))) + grid[row][col_target]
         
