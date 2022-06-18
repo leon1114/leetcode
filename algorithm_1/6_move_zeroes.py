@@ -2,7 +2,7 @@ import unittest
 from typing import *
 
 class Solution:
-    def moveZeroes(self, nums: List[int]) -> None:
+    def mySol(self, nums: List[int]) -> None:
         """
         0 을 뒤쪽으로 옮기는데 0 이 아닌 것들은 순서가 유지 되어야 한다.
 
@@ -26,7 +26,7 @@ class Solution:
             while zi < len(nums) and nums[zi] != 0:
                 zi += 1
 
-            nzi = zi
+            nzi = zi + 1
             while nzi < len(nums) and nums[nzi] == 0:
                 nzi += 1
 
@@ -34,6 +34,29 @@ class Solution:
                 break
             
             nums[zi], nums[nzi] = nums[nzi], nums[zi]
+
+    def sol_1(self, nums):
+        next_non_zero_idx = 0
+        for i, num in enumerate(nums):
+            if num != 0:
+                nums[next_non_zero_idx] = num
+                next_non_zero_idx += 1
+        
+        for i in range(next_non_zero_idx, len(nums)):
+            nums[i] = 0
+
+
+    def sol_2(self, nums):
+        next_non_zero_idx = 0
+        for i, num in enumerate(nums):
+            if num != 0:
+                nums[next_non_zero_idx], nums[i] = nums[i], nums[next_non_zero_idx]
+                next_non_zero_idx += 1
+
+    
+    def moveZeroes(self, nums: List[int]) -> None:
+        self.sol_2(nums)
+
 
 
 class SolutionTests(unittest.TestCase):
